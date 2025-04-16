@@ -64,11 +64,11 @@ It should have the following columns:
 
 
 # 7. UPDATE A ROW 
-# Add option 4. Enter a cat's id to get it, then enter a new name, and save
+# Add option 5. Enter a cat's id to get it, then enter a new name, and save
 # that name. For time's sake you can assume the Id entered will always be valid
 
 
 
 # 8. DELETE A ROW
-# Add option 5. Enter a cat's id to get it, then delete it. Print out a
+# Add option 6. Enter a cat's id to get it, then delete it. Print out a
 # message that it was deleted.
