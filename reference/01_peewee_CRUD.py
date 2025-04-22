@@ -34,7 +34,7 @@ class Cat(pw.Model):
         return super().create(**query)
     
     def get_info(self):
-        return f"{self.cat_name} is owned by {self.cat_name} and is {self.age} years old."
+        return f"{self.cat_name} is owned by {self.owner_name} and is {self.age} years old."
     
 db.connect()
 db.create_tables([Cat])
@@ -55,13 +55,13 @@ while True:
         name = input("Enter cat's name: ")
         age = int(input("Enter cat's age: "))
         owner = input("Enter owner's name: ")
-        Cat.create(cat_name=name, owner_name=owner)
+        Cat.create(cat_name=name, owner_name=owner, age=age)
         print("Cat added successfully.\n")
 
     elif option == "2":
         print("\nAll cats (sorted reverse alphabetically):")
-        for cat in Cat.select().order_by(Cat.cat_name.desc()):
-            print(f"ID: {cat.cat_id}, Name: {cat.cat_name}, Owner: {cat.owner_name}")
+        for cat_object in Cat.select().order_by(Cat.cat_name.desc()):
+            print(f"\t{cat_object.get_info()}")
         print()
 
     elif option == "3":
@@ -69,8 +69,8 @@ while True:
         cats = Cat.select().where(Cat.owner_name == owner_query)
         if cats:
             print(f"\nCats owned by {owner_query}:")
-            for cat in cats:
-                print(f"\t{cat.get_info()}")
+            for cat_object in cats:
+                print(f"\t{cat_object.get_info()}")
         else:
             print(f"No cats found for owner '{owner_query}'.")
         print()
@@ -82,16 +82,17 @@ while True:
 
     elif option == "5":
         cat_id = int(input("Enter cat ID to update: "))
-        cat = Cat.get_by_id(cat_id)
+        cat_object = Cat.get_by_id(cat_id)
+        #cat = Cat.get(Cat.cat_id == cat_id)
         new_name = input("Enter new cat name: ")
-        cat.cat_name = new_name.strip().capitalize()
-        cat.save()
+        cat_object.cat_name = new_name.strip().capitalize()
+        cat_object.save()
         print("Cat info updated.\n")
 
     elif option == "6":
         cat_id = int(input("Enter cat ID to delete: "))
-        cat = Cat.get_by_id(cat_id)
-        cat.delete_instance()
+        cat_object = Cat.get_by_id(cat_id)
+        cat_object.delete_instance()
         print("Cat deleted successfully.\n")
 
     elif option.lower() == "exit":
